@@ -21,9 +21,13 @@ namespace MasterChefApp
             viewModel = new MainViewModel();
 
             BindingContext = viewModel;
-            MessagingCenter.Subscribe<HorizontalListItem>(this, "ItemTaped", (s) =>
+            MessagingCenter.Subscribe<HorizontalListItem>(this, "AddChef", (s) =>
             {
-
+                
+            });
+            MessagingCenter.Subscribe<HorizontalListItem>(this, "DescriptionTap", (s) =>
+            {
+                
             });
             GenerateData();
         }

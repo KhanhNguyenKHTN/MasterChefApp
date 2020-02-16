@@ -28,8 +28,13 @@ namespace MasterChefApp.Controls.List
 
         private void ItemTaped(object sender, EventArgs e)
         {
-            MessagingCenter.Send<HorizontalListItem>(this, "ItemTaped");
+            MessagingCenter.Send<HorizontalListItem>(this, "AddChef");
             //TapedEvent?.Invoke(sender, e);
+        }
+
+        private void DescriptionTaped(object sender, EventArgs e)
+        {
+            MessagingCenter.Send<HorizontalListItem>(this, "DescriptionTap");
         }
     }
 }

@@ -37,7 +37,10 @@
                     <Label Text="1"></Label>
                 </StackLayout>
                 
-                <StackLayout Grid.Column="2" VerticalOptions="Start">
+                <StackLayout Grid.Column="2" VerticalOptions="Start" BindingContext="{Binding}">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="DescriptionTaped"></TapGestureRecognizer>
+                    </StackLayout.GestureRecognizers>
                     <Label Text="&#xefab;" FontSize="30"></Label>
                     <Label Text="1"></Label>
                 </StackLayout>
