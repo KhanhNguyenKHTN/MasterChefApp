@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MasterChefApp.Controls.List.HorizontalListItem">
+    <ContentView.Resources>
+        <OnPlatform x:Key="FontIcon" x:TypeArguments="x:String">
+            <!--<On Platform="iOS" Value="icofont" />-->
+            <On Platform="Android" Value="icofont.ttf#icofont" />
+        </OnPlatform>
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource FontIcon}"></Setter>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            <Setter Property="VerticalOptions" Value="Center"/>
+        </Style>
+        <Style TargetType="StackLayout">
+            <Setter Property="Orientation" Value="Horizontal"/>
+        </Style>
+
+    </ContentView.Resources>
+  <ContentView.Content>
+        <Frame Padding="10,5" CornerRadius="10" WidthRequest="220" x:Name="frContent" HeightRequest="150" BorderColor="#03c6fc">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackLayout VerticalOptions="Start">
+                    <Label Text="&#xeb60;" FontSize="30"></Label>
+                    <Label Text="1"></Label>
+                </StackLayout>
+
+                <StackLayout VerticalOptions="End">
+                    <Label Text="&#xef76;" FontSize="30"></Label>
+                    <Label Text="1"></Label>
+                </StackLayout>
+                
+                <StackLayout Grid.Column="2" VerticalOptions="Start">
+                    <Label Text="&#xefab;" FontSize="30"></Label>
+                    <Label Text="1"></Label>
+                </StackLayout>
+
+                <StackLayout Grid.Column="2" VerticalOptions="End" BindingContext="{Binding}">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ItemTaped"></TapGestureRecognizer>
+                    </StackLayout.GestureRecognizers>
+                    
+                    <Label Text="&#xeb4e;" FontSize="30"></Label>
+                    <Label Text="&#xeab2;"></Label>
+                </StackLayout>
+
+                <Grid Grid.Column="1" Margin="0,10,0,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Image VerticalOptions="Center" Source="{Binding Dish.ImagesSource}" Aspect="AspectFill" HorizontalOptions="Center"
+                           HeightRequest="70" WidthRequest="70"></Image>
+                    <Label Grid.Row="1" Text="{Binding Dish.LabName}" HorizontalOptions="Center" LineBreakMode="TailTruncation"></Label>
+                </Grid>
+
+            </Grid>
+        </Frame>
+  </ContentView.Content>
+</ContentView>
