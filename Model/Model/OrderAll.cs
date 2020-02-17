@@ -121,11 +121,17 @@ namespace Model.Model
         public Pic Pic { get => _Pic; set { _Pic = value; OnPropertyChanged(); } }
 
         private int _Quantity;
+        [JsonProperty("quantity")]
         public int Quantity { get => _Quantity; set { _Quantity = value; OnPropertyChanged(); } }
 
         private string _Status;
         [JsonProperty("status")]
         public string Status { get => _Status; set { _Status = value; OnPropertyChanged(); } }
+
+        private string _Note;
+        [JsonProperty("note")]
+        public string Note { get => _Note; set { _Note = value; OnPropertyChanged(); } }
+
     }
     
     public class Customer: BaseModel

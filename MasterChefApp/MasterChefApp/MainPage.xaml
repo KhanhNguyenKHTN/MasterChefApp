@@ -17,6 +17,7 @@
 
         <Style TargetType="Button">
             <Setter Property="FontFamily" Value="{StaticResource FontIcon}"></Setter>
+            <Setter Property="FontFamily" Value="{StaticResource FontIcon}"></Setter>
             <Setter Property="FontAttributes" Value="Bold"/>
             <Setter Property="FontSize" Value="20"/>
         </Style>
@@ -51,7 +52,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid BackgroundColor="#e8de51" Margin="-15, -15, -15, 0">
-                            <Label Text="Đang chờ" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"></Label>
+                            <Label Text="Đang chờ" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center"></Label>
                         </Grid>
                         <control:HorizontalListView MainHeight="150" HeightRequest="150" Grid.Row="1" BorderItemColor="#e8de51"
                                                     IsLoading="{Binding IsLoadingWaiting}"
@@ -126,7 +127,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid BackgroundColor="LightGreen" Margin="-15, -15, -15, 0">
-                            <Label Text="Hoàn thành" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"></Label>
+                            <Label Text="Hoàn thành" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center"></Label>
                         </Grid>
                         <control:HorizontalListView MainHeight="150" HeightRequest="150" Grid.Row="1" BorderItemColor="LightGreen"
                                                     IsLoading="{Binding IsLoadingComplete}"

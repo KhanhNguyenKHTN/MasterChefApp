@@ -14,7 +14,7 @@ namespace Viewmodel.ViewModel.MainView
         private ObservableCollection<OrderDetail> _ListWaiting;
         public ObservableCollection<OrderDetail> ListWaiting { get => _ListWaiting; set { _ListWaiting = value; OnPropertyChanged(); } }
 
-        private bool _IsLoadingWaiting = true;
+        private bool _IsLoadingWaiting = false;
         public bool IsLoadingWaiting { get => _IsLoadingWaiting; set { _IsLoadingWaiting = value; OnPropertyChanged(); } }
 
         private bool _IsLoadingChef1 = true;
@@ -25,6 +25,11 @@ namespace Viewmodel.ViewModel.MainView
 
         private bool _IsLoadingChef3 = true;
         public bool IsLoadingChef3 { get => _IsLoadingChef3; set { _IsLoadingChef3 = value; OnPropertyChanged(); } }
+
+        public void InsertOrderDetail(OrderDetail e)
+        {
+            ListWaiting.Insert(0, e);
+        }
 
         private bool _IsLoadingComplete = true;
         public bool IsLoadingComplete { get => _IsLoadingComplete; set { _IsLoadingComplete = value; OnPropertyChanged(); } }

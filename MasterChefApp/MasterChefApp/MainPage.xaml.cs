@@ -1,5 +1,6 @@
 ﻿using MasterChefApp.Controls.List;
 using MasterChefApp.Models;
+using MasterChefApp.Services;
 using Model.Model;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,13 @@ namespace MasterChefApp
     public partial class MainPage : ContentPage
     {
         MainViewModel viewModel;
+        RabbitConnect rabbit;
         public MainPage()
         {
             InitializeComponent();
             viewModel = new MainViewModel();
-
+            rabbit = new RabbitConnect();
+            rabbit.ReceiveNotifyRabbitMQ();
             BindingContext = viewModel;
             MessagingCenter.Subscribe<HorizontalListItem>(this, "AddChef", (s) =>
             {
@@ -29,7 +32,15 @@ namespace MasterChefApp
             {
                 
             });
-            GenerateData();
+            MessagingCenter.Subscribe<RabbitConnect, OrderDetail>(this, "DishQuere", (s, e) => {
+                viewModel.InsertOrderDetail(e);
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    lsList.AddFirst(e);
+                });
+            });
+            viewModel.IsLoadingWaiting = false;
+            //GenerateData();
         }
 
         private async void GenerateData()
