@@ -57,7 +57,9 @@
     <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="27.0.2.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalAndroidClass.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="PlayAudio.cs" />
     <Compile Include="Renderers\EntryRenderers\BorderEntryRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,6 +96,10 @@
     <Folder Include="Resources\drawable-xxxhdpi\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Global\Global.csproj">
+      <Project>{84574381-4801-4ec6-aafa-1a70563af5ba}</Project>
+      <Name>Global</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MasterChefApp\MasterChefApp.csproj">
       <Project>{063BB498-E470-442B-8DEE-B6FACD67D462}</Project>
       <Name>MasterChefApp</Name>
@@ -104,6 +110,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\BackGroundImage2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\bell.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

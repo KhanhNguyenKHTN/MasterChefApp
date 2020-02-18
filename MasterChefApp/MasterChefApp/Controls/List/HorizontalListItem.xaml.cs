@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,10 @@ namespace MasterChefApp.Controls.List
 
         private void DescriptionTaped(object sender, EventArgs e)
         {
-            MessagingCenter.Send<HorizontalListItem>(this, "DescriptionTap");
+            var item = sender as StackLayout;
+            var context = item.BindingContext as OrderDetail;
+            if (!context.IsHasDescription) return;
+            MessagingCenter.Send<HorizontalListItem, string>(this, "DescriptionTap",context.Description);
         }
     }
 }

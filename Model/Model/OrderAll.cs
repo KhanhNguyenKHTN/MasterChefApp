@@ -108,7 +108,7 @@ namespace Model.Model
     {
         private string _Description;
         [JsonProperty("description")]
-        public string Description { get => _Description; set { _Description = value; OnPropertyChanged(); } }
+        public string Description { get => _Description; set { _Description = value; OnPropertyChanged(); OnPropertyChanged("IsHasDescription"); } }
 
         private Food _Dish;
         [JsonProperty("dish")]
@@ -133,6 +133,9 @@ namespace Model.Model
         private string _Note;
         [JsonProperty("note")]
         public string Note { get => _Note; set { _Note = value; OnPropertyChanged(); } }
+        
+        public bool IsHasDescription { get { return !string.IsNullOrEmpty(Description); } }
+
 
     }
     

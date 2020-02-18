@@ -64,10 +64,6 @@ namespace MasterChefApp.Services
                                      autoAck: true,
                                      consumer: consumer);
 
-                channel.BasicConsume(queue: "cook01",
-                                    autoAck: true,
-                                    consumer: consumer);
-
             }
             catch
             {

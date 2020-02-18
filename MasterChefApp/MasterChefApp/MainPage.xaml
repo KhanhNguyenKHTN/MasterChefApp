@@ -11,45 +11,45 @@
         </OnPlatform>
         <Style TargetType="Label">
             <Setter Property="FontFamily" Value="{StaticResource FontIcon}"></Setter>
-            <Setter Property="FontAttributes" Value="Bold"/>
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="FontSize" Value="20" />
         </Style>
 
         <Style TargetType="Button">
             <Setter Property="FontFamily" Value="{StaticResource FontIcon}"></Setter>
             <Setter Property="FontFamily" Value="{StaticResource FontIcon}"></Setter>
-            <Setter Property="FontAttributes" Value="Bold"/>
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="FontSize" Value="20" />
         </Style>
 
         <Style TargetType="Frame">
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="BorderColor" Value="#34aeeb"/>
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="BorderColor" Value="#34aeeb" />
         </Style>
     </ContentPage.Resources>
-    <Grid Margin="5">
+    <Grid Margin="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="45"/>
-            <RowDefinition/>
+            <RowDefinition Height="45" />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <Frame Padding="5" CornerRadius="010" BorderColor="#349eeb" BackgroundColor="#349eeb">
-            <Label Margin="5,0,0,0" x:Name="Notify" Text="Notify" TextColor="White" VerticalOptions="Center" VerticalTextAlignment="Center"></Label>
+
+        <Frame Padding="5" CornerRadius="0" Margin="-5" BorderColor="#349eeb" BackgroundColor="#349eeb">
+            <Label Margin="10,0,0,0" x:Name="Notify" Text="Notify" TextColor="White" VerticalOptions="Center" VerticalTextAlignment="Center"></Label>
         </Frame>
-        <Picker x:Name="pkChef" ItemsSource="{Binding ListStringUser}" SelectedIndexChanged="PkChef_SelectedIndexChanged">
-        </Picker>
-        <ScrollView Orientation="Vertical" Grid.Row="1">
+        
+        <ScrollView Margin="5,0,5,10" Orientation="Vertical" Grid.Row="1">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="230"></RowDefinition>
-                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="330"></RowDefinition>
+                    <RowDefinition Height="auto" />
                     <RowDefinition Height="230"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Frame Padding="15" CornerRadius="0" BorderColor="#e8de51" >
+                <Frame Padding="15" CornerRadius="0" BorderColor="#e8de51">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="35"/>
-                            <RowDefinition/>
+                            <RowDefinition Height="35" />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <Grid BackgroundColor="#e8de51" Margin="-15, -15, -15, 0">
                             <Label Text="Đang chờ" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center"></Label>
@@ -64,19 +64,19 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="35"></RowDefinition>
-                            <RowDefinition Height="230"/>
-                            <RowDefinition Height="230"/>
-                            <RowDefinition Height="230"/>
+                            <RowDefinition Height="230" />
+                            <RowDefinition Height="230" />
+                            <RowDefinition Height="230" />
                         </Grid.RowDefinitions>
                         <Grid BackgroundColor="#03a9fc" Margin="-15, -15, -15, 0">
                             <Label Text="Đang làm" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center"></Label>
                         </Grid>
 
-                        <Frame Grid.Row="1" Padding="15" CornerRadius="10" BorderColor="LightGray" >
+                        <Frame Grid.Row="1" Padding="15" CornerRadius="10" BorderColor="LightGray">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="25"/>
-                                    <RowDefinition/>
+                                    <RowDefinition Height="25" />
+                                    <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <Grid BackgroundColor="LightGray" Margin="-15, -15, -15, 0">
                                     <Label Text="Đầu bếp 1" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Start"></Label>
@@ -87,11 +87,11 @@
                             </Grid>
                         </Frame>
 
-                        <Frame Grid.Row="2" Padding="15" CornerRadius="10" BorderColor="LightGray" >
+                        <Frame Grid.Row="2" Padding="15" CornerRadius="10" BorderColor="LightGray">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="25"/>
-                                    <RowDefinition/>
+                                    <RowDefinition Height="25" />
+                                    <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <Grid BackgroundColor="LightGray" Margin="-15, -15, -15, 0">
                                     <Label Text="Đầu bếp 2" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Start"></Label>
@@ -102,11 +102,11 @@
                             </Grid>
                         </Frame>
 
-                        <Frame Grid.Row="3" Padding="15" CornerRadius="10" BorderColor="LightGray" >
+                        <Frame Grid.Row="3" Padding="15" CornerRadius="10" BorderColor="LightGray">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="25"/>
-                                    <RowDefinition/>
+                                    <RowDefinition Height="25" />
+                                    <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <Grid BackgroundColor="LightGray" Margin="-15, -15, -15, 0">
                                     <Label Text="Đầu bếp 3" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Start"></Label>
@@ -116,15 +116,14 @@
                                     x:Name="lsChef3" ItemSources="{Binding ListCook3,UpdateSourceEventName=OnPropertyChanged}"></control:HorizontalListView>
                             </Grid>
                         </Frame>
-
                     </Grid>
                 </Frame>
 
-                <Frame Grid.Row="2" CornerRadius="0" Padding="15" BorderColor="LightGreen" >
+                <Frame Grid.Row="2" CornerRadius="0" Padding="15" BorderColor="LightGreen">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="35"/>
-                            <RowDefinition/>
+                            <RowDefinition Height="35" />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <Grid BackgroundColor="LightGreen" Margin="-15, -15, -15, 0">
                             <Label Text="Hoàn thành" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center"></Label>
@@ -134,9 +133,7 @@
                                     x:Name="lsComplete" ItemSources="{Binding ListComplete,UpdateSourceEventName=OnPropertyChanged}"></control:HorizontalListView>
                     </Grid>
                 </Frame>
-
             </Grid>
         </ScrollView>
     </Grid>
-    
 </ContentPage>

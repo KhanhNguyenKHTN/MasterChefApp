@@ -1,10 +1,12 @@
-﻿using MasterChefApp.Controls.List;
+﻿using MasterChefApp.Controls.Audio;
+using MasterChefApp.Controls.List;
 using MasterChefApp.Models;
 using MasterChefApp.Services;
 using Model.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,55 +19,85 @@ namespace MasterChefApp
     {
         MainViewModel viewModel;
         RabbitConnect rabbit;
-        List<string> Messages = new List<string>();
-        bool isShowingAlert = true;
+        List<OrderDetail> ListNotifi = new List<OrderDetail>();
+        bool isShowingAlert = false;
+        IAudioNoti audio;
         public MainPage()
         {
             InitializeComponent();
-            viewModel = new MainViewModel();
-            rabbit = new RabbitConnect();
-            rabbit.ReceiveNotifyRabbitMQ();
-            BindingContext = viewModel;
             MessagingCenter.Subscribe<HorizontalListItem>(this, "AddChef", (s) =>
             {
                 
             });
-            MessagingCenter.Subscribe<HorizontalListItem>(this, "DescriptionTap", (s) =>
+            MessagingCenter.Subscribe<HorizontalListItem, string>(this, "DescriptionTap", async (s, mess) =>
             {
-                
+                await DisplayAlert("Ghi chú", mess, "Ok");
             });
-            MessagingCenter.Subscribe<RabbitConnect, OrderDetail>(this, "DishQuere", (s, e) => {
-                viewModel.InsertOrderDetail(e);
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    lsList.AddFirst(e);
-                });
-                string mess = "Đã thêm: "+ e.Quantity + " món (" + e.Dish.LabName + ") vào danh sách chờ";
-                Messages.Add(mess);
-                DisplayNotifyCation(mess);
+            MessagingCenter.Subscribe<RabbitConnect, OrderDetail>(this, "AddDetailQuere", (s, e) => {
+                var check = viewModel.ListWaiting.FirstOrDefault(x => x.OrderDetailId == e.OrderDetailId);
+                if (check != null) return;
+                ListNotifi.Add(e);
+                //viewModel.InsertOrderDetail(e);
+                //Device.BeginInvokeOnMainThread(() =>
+                //{
+                //    lsList.AddLast(e);
+                //});
+                //string mess = "Đã thêm: "+ e.Quantity + " món (" + e.Dish.LabName + ") vào danh sách chờ";
+                //Messages.Add(mess);
+                DisplayNotifyCation();
             });
-            viewModel.IsLoadingWaiting = false;
-            //GenerateData();
+            viewModel = new MainViewModel();
+            BindingContext = viewModel;
+           // Connect();
+            GenerateData();
+            audio = DependencyService.Get<IAudioNoti>();
+            audio.playAudio();
         }
 
-        private void DisplayNotifyCation(string mess)
+        private async void Connect()
         {
-            ShowMessage();
+            await Task.Delay(200);
+            BackgroundWorker wk = new BackgroundWorker();
+            wk.DoWork += (s, e) =>
+            {
+                rabbit = new RabbitConnect();
+                rabbit.ReceiveNotifyRabbitMQ();
+            };
+            wk.RunWorkerAsync();
+            
+        }
+
+        private void DisplayNotifyCation()
+        {
+            if (!isShowingAlert)
+            {
+                ShowMessage();
+            }
         }
 
         private async void ShowMessage()
         {
-            var mess = Messages.First();
+            var e = ListNotifi.First();
+            string mess = "Đã thêm: " + e.Quantity + " món (" + e.Dish.LabName + ") vào danh sách chờ";
             string original = "Đang chờ: " + viewModel.ListWaiting?.Count + " món";
             Device.BeginInvokeOnMainThread(() =>
             {
                 isShowingAlert = true;
+                audio.playAudio();
+                viewModel.InsertOrderDetail(e);
+                lsList.AddLast(e);
                 Notify.Text = mess;
+
             });
             await Task.Delay(3000);
-            Messages.Remove(mess);
-            isShowingAlert = false;
-            if(Messages.Count != 0)
+
+            ListNotifi.Remove(e);
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                isShowingAlert = false;
+                Notify.Text = original;
+            });
+            if(ListNotifi.Count != 0)
             {
                 ShowMessage();
             }
@@ -73,8 +105,20 @@ namespace MasterChefApp
 
         private async void GenerateData()
         {
-            await Task.Delay(2000);
-            viewModel.LoadWaitingPage();
+            await Task.Delay(500);
+            BackgroundWorker wk = new BackgroundWorker();
+            wk.DoWork += async (s, e) =>
+            {
+                await viewModel.LoadData();
+                string original = "Đang chờ: " + viewModel.ListWaiting?.Count + " món";
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isShowingAlert = false;
+                    Notify.Text = original;
+                });
+                Connect();
+            };
+            wk.RunWorkerAsync();
             //while (true)
             //{
             //    await Task.Delay(5000);

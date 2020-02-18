@@ -28,7 +28,7 @@ namespace Viewmodel.ViewModel.MainView
 
         public void InsertOrderDetail(OrderDetail e)
         {
-            ListWaiting.Insert(0, e);
+            ListWaiting.Add(e);
         }
 
         private bool _IsLoadingComplete = true;
@@ -59,16 +59,16 @@ namespace Viewmodel.ViewModel.MainView
         {
             service = new MainService();
         }
-        public void LoadData()
+        public async Task<bool> LoadData()
         {
-            LoadWaitingPage();
+            await LoadWaitingPage();
             LoadCompletePage();
             ListUser = new ObservableCollection<Pic>()
             {
                 new Pic()
                 {
                     EmployeeId = 10,
-                    userInfo = new UserInfo()
+                    UserInfo = new UserInfo()
                     {
                         DisplayName = "Đầu bếp 01"
                     },
@@ -76,7 +76,7 @@ namespace Viewmodel.ViewModel.MainView
                 new Pic()
                 {
                     EmployeeId = 11,
-                    userInfo = new UserInfo()
+                    UserInfo = new UserInfo()
                     {
                         DisplayName = "Đầu bếp 02"
                     },
@@ -84,27 +84,31 @@ namespace Viewmodel.ViewModel.MainView
                 new Pic()
                 {
                     EmployeeId = 12,
-                    userInfo = new UserInfo()
+                    UserInfo = new UserInfo()
                     {
                         DisplayName = "Đầu bếp 03"
                     },
                 }
             };
+            return true;
            // LoadAllListCook();
         }
 
-        public void LoadWaitingPage()
+        public async Task<bool> LoadWaitingPage()
         {
             IsLoadingWaiting = true;
-            BackgroundWorker wk = new BackgroundWorker();
-            wk.DoWork +=async (s,e)=> {
-                ListWaiting = await service.GetListOrderByStatus("ĐANG CHỜ");
-            };
-            wk.RunWorkerCompleted += (s, e) =>
-            {
-                IsLoadingWaiting = false;
-            };
-            wk.RunWorkerAsync();
+            //BackgroundWorker wk = new BackgroundWorker();
+            //wk.DoWork +=async (s,e)=> {
+                
+            //};
+            //wk.RunWorkerCompleted += (s, e) =>
+            //{
+                
+            //};
+            //wk.RunWorkerAsync();
+            ListWaiting = await service.GetListOrderByStatus("ĐANG CHỜ");
+            IsLoadingWaiting = false;
+            return true;
         }
 
         public void LoadCompletePage()
