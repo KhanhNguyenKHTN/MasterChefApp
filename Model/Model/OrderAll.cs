@@ -93,8 +93,10 @@ namespace Model.Model
         private string _Status;
         public string Status { get => _Status; set { _Status = value; OnPropertyChanged(); } }
 
-        private UserInfo _userInfo;
-        public UserInfo userInfo { get => _userInfo; set { _userInfo = value; OnPropertyChanged(); } }
+        private UserInfo _UserInfo;
+        [JsonProperty("userInfo")]
+        public UserInfo UserInfo { get => _UserInfo; set { _UserInfo = value; OnPropertyChanged(); } }
+
 
         private string _UserName;
         [JsonProperty("userName")]

@@ -17,6 +17,8 @@ namespace MasterChefApp
     {
         MainViewModel viewModel;
         RabbitConnect rabbit;
+        List<string> Messages = new List<string>();
+        bool isShowingAlert = true;
         public MainPage()
         {
             InitializeComponent();
@@ -38,9 +40,35 @@ namespace MasterChefApp
                 {
                     lsList.AddFirst(e);
                 });
+                string mess = "Đã thêm: "+ e.Quantity + " món (" + e.Dish.LabName + ") vào danh sách chờ";
+                Messages.Add(mess);
+                DisplayNotifyCation(mess);
             });
             viewModel.IsLoadingWaiting = false;
             //GenerateData();
+        }
+
+        private void DisplayNotifyCation(string mess)
+        {
+            ShowMessage();
+        }
+
+        private async void ShowMessage()
+        {
+            var mess = Messages.First();
+            string original = "Đang chờ: " + viewModel.ListWaiting?.Count + " món";
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                isShowingAlert = true;
+                Notify.Text = mess;
+            });
+            await Task.Delay(3000);
+            Messages.Remove(mess);
+            isShowingAlert = false;
+            if(Messages.Count != 0)
+            {
+                ShowMessage();
+            }
         }
 
         private async void GenerateData()
