@@ -36,13 +36,6 @@ namespace MasterChefApp
             MessagingCenter.Subscribe<RabbitConnect, OrderDetail>(this, "AddDetailQuere", (s, e) => {
                 
                 ListNotifi.Add(e);
-                //viewModel.InsertOrderDetail(e);
-                //Device.BeginInvokeOnMainThread(() =>
-                //{
-                //    lsList.AddLast(e);
-                //});
-                //string mess = "Đã thêm: "+ e.Quantity + " món (" + e.Dish.LabName + ") vào danh sách chờ";
-                //Messages.Add(mess);
                 DisplayNotifyCation();
             });
             viewModel = new MainViewModel();
