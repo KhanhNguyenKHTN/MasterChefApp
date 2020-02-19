@@ -58,7 +58,7 @@ namespace Service
         {
             try
             {
-                string url = @"/order-detail/pic/"+ cus.EmployeeId +@"/type/" + status;
+                string url = @"/order-detail/pic/"+ cus.UserInfo.UserId +@"/type/" + status;
 
                 var response = await client.GetAsync(url);
 

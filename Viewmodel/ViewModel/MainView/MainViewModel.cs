@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Viewmodel.ViewModel.MainView
 {
@@ -70,7 +71,8 @@ namespace Viewmodel.ViewModel.MainView
                     EmployeeId = 10,
                     UserInfo = new UserInfo()
                     {
-                        DisplayName = "Đầu bếp 01"
+                        DisplayName = "Đầu bếp 01",
+                        UserId = 15
                     },
                 },
                 new Pic()
@@ -78,7 +80,8 @@ namespace Viewmodel.ViewModel.MainView
                     EmployeeId = 11,
                     UserInfo = new UserInfo()
                     {
-                        DisplayName = "Đầu bếp 02"
+                        DisplayName = "Đầu bếp 02",
+                        UserId = 16
                     },
                 },
                 new Pic()
@@ -86,10 +89,13 @@ namespace Viewmodel.ViewModel.MainView
                     EmployeeId = 12,
                     UserInfo = new UserInfo()
                     {
-                        DisplayName = "Đầu bếp 03"
+                        DisplayName = "Đầu bếp 03",
+                        UserId = 17
                     },
                 }
             };
+
+            LoadAllListCook();
             return true;
            // LoadAllListCook();
         }
@@ -97,15 +103,6 @@ namespace Viewmodel.ViewModel.MainView
         public async Task<bool> LoadWaitingPage()
         {
             IsLoadingWaiting = true;
-            //BackgroundWorker wk = new BackgroundWorker();
-            //wk.DoWork +=async (s,e)=> {
-                
-            //};
-            //wk.RunWorkerCompleted += (s, e) =>
-            //{
-                
-            //};
-            //wk.RunWorkerAsync();
             ListWaiting = await service.GetListOrderByStatus("ĐANG CHỜ");
             IsLoadingWaiting = false;
             return true;

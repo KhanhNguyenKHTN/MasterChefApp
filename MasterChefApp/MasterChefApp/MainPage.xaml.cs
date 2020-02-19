@@ -34,8 +34,7 @@ namespace MasterChefApp
                 await DisplayAlert("Ghi chú", mess, "Ok");
             });
             MessagingCenter.Subscribe<RabbitConnect, OrderDetail>(this, "AddDetailQuere", (s, e) => {
-                var check = viewModel.ListWaiting.FirstOrDefault(x => x.OrderDetailId == e.OrderDetailId);
-                if (check != null) return;
+                
                 ListNotifi.Add(e);
                 //viewModel.InsertOrderDetail(e);
                 //Device.BeginInvokeOnMainThread(() =>
@@ -77,26 +76,49 @@ namespace MasterChefApp
 
         private async void ShowMessage()
         {
-            var e = ListNotifi.First();
-            string mess = "Đã thêm: " + e.Quantity + " món (" + e.Dish.LabName + ") vào danh sách chờ";
             string original = "Đang chờ: " + viewModel.ListWaiting?.Count + " món";
-            Device.BeginInvokeOnMainThread(() =>
+            var e = ListNotifi.First();
+            var check = viewModel.ListWaiting.FirstOrDefault(x => x.OrderDetailId == e.OrderDetailId);
+            if (check == null)
             {
-                isShowingAlert = true;
-                audio.playAudio();
-                viewModel.InsertOrderDetail(e);
-                lsList.AddLast(e);
-                Notify.Text = mess;
+                string mess = "Đã thêm: " + e.Quantity + " món (" + e.Dish.LabName + ") vào danh sách chờ";
+          
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isShowingAlert = true;
+                    audio.playAudio();
+                    viewModel.InsertOrderDetail(e);
+                    lsList.AddLast(e);
+                    Notify.Text = mess;
 
-            });
-            await Task.Delay(3000);
+                });
+                await Task.Delay(3000);
 
+
+            }
+            else
+            {
+                string mess = "Đã cập nhật món " + e.Dish.LabName + " lên " + e.Quantity;
+
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isShowingAlert = true;
+                    audio.playAudio();
+                    check.Quantity = e.Quantity;
+                    //viewModel.InsertOrderDetail(e);
+                    //lsList.AddLast(e);
+                    Notify.Text = mess;
+
+                });
+                await Task.Delay(3000);
+            }
             ListNotifi.Remove(e);
             Device.BeginInvokeOnMainThread(() =>
             {
                 isShowingAlert = false;
                 Notify.Text = original;
             });
+
             if(ListNotifi.Count != 0)
             {
                 ShowMessage();

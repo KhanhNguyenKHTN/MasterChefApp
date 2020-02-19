@@ -27,7 +27,7 @@
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
                 <Grid>
-                    <Image Margin="2" HeightRequest="120" Source="{Binding Dish.ImagesSource}" Aspect="AspectFill"></Image>
+                    <Image Margin="2" BackgroundColor="LightGray" HeightRequest="120" Source="{Binding Dish.ImagesSource,UpdateSourceEventName=OnPropertyChanged}" Aspect="AspectFill"></Image>
                     <Frame Padding="5,0" BackgroundColor="White" Margin="0,10,0,10" Opacity="0.7" CornerRadius="0" VerticalOptions="End" HorizontalOptions="Center"
                            WidthRequest="210" HeightRequest="40">
                         <Label HorizontalOptions="Center" Text="{Binding Dish.LabName}" FontAttributes="Bold" LineBreakMode="TailTruncation"></Label>
