@@ -136,7 +136,7 @@ namespace Model.Model
         
         public bool IsHasDescription { get { return !string.IsNullOrEmpty(Description); } }
 
-
+        public bool IsHasPic { get { return Status != "ĐANG CHỜ"; } }
     }
     
     public class Customer: BaseModel

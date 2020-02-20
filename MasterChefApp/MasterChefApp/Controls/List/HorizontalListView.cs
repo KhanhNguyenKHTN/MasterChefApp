@@ -82,7 +82,7 @@ namespace MasterChefApp.Controls
             grid.Children.Add(scroll);
 
             waitingGrid = new Grid();
-            waitingGrid.Children.Add(new ActivityIndicator() { IsRunning = true, HeightRequest=50 ,WidthRequest = 50,
+            waitingGrid.Children.Add(new ActivityIndicator() { IsRunning = true, HeightRequest=50 ,WidthRequest = 50, Color = Color.FromHex("#6a27e6"),
                 VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center});
             grid.Children.Add(waitingGrid);
             Content = grid;
@@ -98,6 +98,15 @@ namespace MasterChefApp.Controls
         {
             Device.BeginInvokeOnMainThread(() => {
                 MainContent.Children.Add(new HorizontalListItem() { BindingContext = item, BorderItemColor = BorderItemColor });
+            });
+        }
+
+        public void Remove(object Item)
+        {
+            Device.BeginInvokeOnMainThread(() => {
+                var removeItem = MainContent.Children.FirstOrDefault(x => x.BindingContext == Item);
+                int index = ItemSources.ToList().IndexOf(removeItem);
+                MainContent.Children.RemoveAt(index);
             });
         }
 

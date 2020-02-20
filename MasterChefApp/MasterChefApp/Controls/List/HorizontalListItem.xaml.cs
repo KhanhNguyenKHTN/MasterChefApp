@@ -29,8 +29,10 @@ namespace MasterChefApp.Controls.List
 
         private void ItemTaped(object sender, EventArgs e)
         {
-            MessagingCenter.Send<HorizontalListItem>(this, "AddChef");
-            //TapedEvent?.Invoke(sender, e);
+            var item = sender as StackLayout;
+            var context = item.BindingContext as OrderDetail;
+            if (context.IsHasPic) return;
+            MessagingCenter.Send<HorizontalListItem, OrderDetail>(this, "AddChef", context);
         }
 
         private void DescriptionTaped(object sender, EventArgs e)

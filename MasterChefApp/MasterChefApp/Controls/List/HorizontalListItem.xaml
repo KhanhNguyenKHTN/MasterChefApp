@@ -75,7 +75,17 @@
                         </Grid.ColumnDefinitions>
                         <Label VerticalTextAlignment="Center" Text="&#xeb4e;" FontSize="25"></Label>
                         <Label VerticalTextAlignment="Center" LineBreakMode="TailTruncation" Grid.Column="1" Text="{Binding Pic.UserInfo.DisplayName}"></Label>
-                        <Label VerticalTextAlignment="Center" Grid.Column="2" Text="&#xea67;" FontSize="25"></Label>
+                        <Label VerticalTextAlignment="Center" Grid.Column="2" Text="&#xea67;" FontSize="25">
+                            <!--IsHasPic-->
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsHasPic}" Value="True">
+                                    <Setter Property="IsVisible" Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsHasPic}" Value="False">
+                                    <Setter Property="IsVisible" Value="True"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
                     </Grid>
                 </Frame>
             </Grid>

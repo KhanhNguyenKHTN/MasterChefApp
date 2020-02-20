@@ -80,5 +80,20 @@ namespace Service
                 return null;
             }
         }
+
+        public async Task<bool> AssignChef(Pic pic, OrderDetail detail)
+        {
+            try
+            {
+                string url = "";
+
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

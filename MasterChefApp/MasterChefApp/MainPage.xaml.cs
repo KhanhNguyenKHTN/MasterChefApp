@@ -22,12 +22,15 @@ namespace MasterChefApp
         List<OrderDetail> ListNotifi = new List<OrderDetail>();
         bool isShowingAlert = false;
         IAudioNoti audio;
+        int timeWait = 3000;
         public MainPage()
         {
             InitializeComponent();
-            MessagingCenter.Subscribe<HorizontalListItem>(this, "AddChef", (s) =>
+            MessagingCenter.Subscribe<HorizontalListItem, OrderDetail>(this, "AddChef", (s, detail) =>
             {
-                
+                viewModel.SelectedDetail = detail;
+                gridPicWaiting.IsVisible = false;
+                gridSelectedChef.IsVisible = true;
             });
             MessagingCenter.Subscribe<HorizontalListItem, string>(this, "DescriptionTap", async (s, mess) =>
             {
@@ -40,10 +43,9 @@ namespace MasterChefApp
             });
             viewModel = new MainViewModel();
             BindingContext = viewModel;
-           // Connect();
             GenerateData();
             audio = DependencyService.Get<IAudioNoti>();
-            audio.playAudio();
+            //audio.playAudio();
         }
 
         private async void Connect()
@@ -83,33 +85,79 @@ namespace MasterChefApp
                     viewModel.InsertOrderDetail(e);
                     lsList.AddLast(e);
                     Notify.Text = mess;
-
+                    Notify.TextColor = Color.White;
                 });
-                await Task.Delay(3000);
+                await Task.Delay(timeWait);
 
 
             }
             else
             {
-                string mess = "Đã cập nhật món " + e.Dish.LabName + " lên " + e.Quantity;
-
-                Device.BeginInvokeOnMainThread(() =>
+                if (e.Status == "ĐANG THỰC HIỆN")
                 {
-                    isShowingAlert = true;
-                    audio.playAudio();
-                    check.Quantity = e.Quantity;
-                    //viewModel.InsertOrderDetail(e);
-                    //lsList.AddLast(e);
-                    Notify.Text = mess;
+                    string mess = "Đầu bếp " + e.Pic.UserInfo.DisplayName + " bắt đầu làm món " + e.Dish.LabName;
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isShowingAlert = true;
+                        audio.playAudio();
+                        viewModel.ChangeStatusToDoing(check);
+                        lsList.Remove(check);
+                        switch (check.Pic.EmployeeId)
+                        {
+                            case 10:
+                                lsChef1.AddLast(check);
+                                break;
+                            case 11:
+                                lsChef2.AddLast(check);
+                                break;
+                            case 12:
+                                lsChef3.AddLast(check);
+                                break;
+                            default:
+                                break;
+                        }
 
-                });
-                await Task.Delay(3000);
+                        Notify.Text = mess;
+                        Notify.TextColor = Color.White;
+                    });
+                    await Task.Delay(timeWait);
+                }
+                else if(e.Status == "HOÀN THÀNH")
+                {
+                    string mess = "Đầu bếp " + e.Pic.UserInfo.DisplayName + " đã hoàn thành món " + e.Dish.LabName;
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isShowingAlert = true;
+                        audio.playAudio();
+                        viewModel.ChangeStatusToComplete(check);
+                        lsList.Remove(check);
+                        lsComplete.AddFirst(check);
+                        Notify.Text = mess;
+                        Notify.TextColor = Color.LightGreen;
+                    });
+                    await Task.Delay(timeWait);
+                }
+                else
+                {
+                    string mess = "Đã cập nhật món " + e.Dish.LabName + " lên " + e.Quantity;
+
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isShowingAlert = true;
+                        audio.playAudio();
+                        check.Quantity = e.Quantity;
+                        Notify.Text = mess;
+                        Notify.TextColor = Color.LightPink;
+                    });
+                    await Task.Delay(timeWait);
+                }
             }
             ListNotifi.Remove(e);
             Device.BeginInvokeOnMainThread(() =>
             {
                 isShowingAlert = false;
                 Notify.Text = original;
+                Notify.TextColor = Color.White;
             });
 
             if(ListNotifi.Count != 0)
@@ -125,25 +173,44 @@ namespace MasterChefApp
             wk.DoWork += async (s, e) =>
             {
                 await viewModel.LoadData();
-                string original = "Đang chờ: " + viewModel.ListWaiting?.Count + " món";
+                string original = "Đang chờ: " + (viewModel.ListWaiting == null? 0 : viewModel.ListWaiting.Count) + " món";
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     isShowingAlert = false;
                     Notify.Text = original;
+                    Notify.TextColor = Color.White;
                 });
                 Connect();
             };
             wk.RunWorkerAsync();
-            //while (true)
-            //{
-            //    await Task.Delay(5000);
-            //    viewModel.AutoAdd(new Food() { LabName = "test" });
-            //    lsList.AddFirst(new Food() { LabName = "aaaa", ImagesSource = @"https://image.shutterstock.com/image-photo/beautiful-water-drop-on-dandelion-260nw-789676552.jpg" });
-            //}
         }
 
         private void PkChef_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private async void ItemTaped(object sender, EventArgs e)
+        {
+            var frame = sender as Frame;
+            Device.BeginInvokeOnMainThread(async() => {
+                await frame.FadeTo(0.5, 50);
+                await frame.FadeTo(1, 50);
+                gridPicWaiting.IsVisible = true;
+            });
+            var pic = frame.BindingContext as Pic;
+
+            var res = await viewModel.AssignChef(pic);
+            if(res != false)
+            {
+                await DisplayAlert("Thông báo", "Không thể assign người này!", "Ok");
+            }
+            else
+            {
+                gridPicWaiting.IsVisible = false;
+            }
+            viewModel.SelectedDetail = null;
+            gridSelectedChef.IsVisible = false;
 
         }
     }

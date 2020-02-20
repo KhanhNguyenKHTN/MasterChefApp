@@ -55,6 +55,8 @@ namespace Viewmodel.ViewModel.MainView
         private ObservableCollection<string> _ListStringUser;
         public ObservableCollection<string> ListStringUser { get => _ListStringUser; set { _ListStringUser = value; OnPropertyChanged(); } }
 
+        public OrderDetail SelectedDetail { get; set; }
+
         MainService service;
         public MainViewModel()
         {
@@ -72,7 +74,8 @@ namespace Viewmodel.ViewModel.MainView
                     UserInfo = new UserInfo()
                     {
                         DisplayName = "Đầu bếp 01",
-                        UserId = 15
+                        UserId = 15,
+                        
                     },
                 },
                 new Pic()
@@ -98,6 +101,29 @@ namespace Viewmodel.ViewModel.MainView
             LoadAllListCook();
             return true;
            // LoadAllListCook();
+        }
+        public void ChangeStatusToComplete(OrderDetail check)
+        {
+            ListWaiting.Remove(check);
+            ListComplete.Insert(0, check);
+        }
+        public void ChangeStatusToDoing(OrderDetail check)
+        {
+            ListWaiting.Remove(check);
+            switch (check.Pic.EmployeeId)
+            {
+                case 10:
+                    ListCook1.Add(check);
+                    break;
+                case 11:
+                    ListCook2.Add(check);
+                    break;
+                case 12:
+                    ListCook3.Add(check);
+                    break;
+                default:
+                    break;
+            }
         }
 
         public async Task<bool> LoadWaitingPage()
@@ -159,9 +185,10 @@ namespace Viewmodel.ViewModel.MainView
             };
         }
 
-        public void AutoAdd(Food n)
+        public async Task<bool> AssignChef(Pic pic)
         {
-            //ListFoods.Add(n);
+            if (SelectedDetail == null) return true;
+            return await service.AssignChef(pic, SelectedDetail);
         }
     }
 }
