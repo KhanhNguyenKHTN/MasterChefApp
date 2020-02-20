@@ -70,7 +70,7 @@ namespace MasterChefApp
 
         private async void ShowMessage()
         {
-            string original = "Đang chờ: " + viewModel.ListWaiting?.Count + " món";
+
             var e = ListNotifi.First();
             var check = viewModel.ListWaiting.FirstOrDefault(x => x.OrderDetailId == e.OrderDetailId);
             if (check == null)
@@ -121,7 +121,7 @@ namespace MasterChefApp
                     });
                     await Task.Delay(timeWait);
                 }
-                else if(e.Status == "HOÀN THÀNH")
+                else if(e.Status == "HOÀN TẤT")
                 {
                     string mess = "Đầu bếp " + e.Pic.UserInfo.DisplayName + " đã hoàn thành món " + e.Dish.LabName;
                     Device.BeginInvokeOnMainThread(() =>
@@ -155,6 +155,7 @@ namespace MasterChefApp
             Device.BeginInvokeOnMainThread(() =>
             {
                 isShowingAlert = false;
+                string original = "Đang chờ: " + viewModel.ListWaiting?.Count + " món";
                 Notify.Text = original;
                 Notify.TextColor = Color.White;
             });
@@ -200,7 +201,7 @@ namespace MasterChefApp
             var pic = frame.BindingContext as Pic;
 
             var res = await viewModel.AssignChef(pic);
-            if(res != false)
+            if(res == false)
             {
                 await DisplayAlert("Thông báo", "Không thể assign người này!", "Ok");
             }
@@ -208,6 +209,9 @@ namespace MasterChefApp
             {
                 //gridPicWaiting.IsVisible = false;
             }
+            var check = viewModel.ListWaiting.FirstOrDefault(x => x.OrderDetailId == viewModel.SelectedDetail.OrderDetailId);
+            check.Pic = pic;
+            lsList.UpdateItem(check);
             viewModel.SelectedDetail = null;
             gridSelectedChef.IsVisible = false;
 

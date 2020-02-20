@@ -153,7 +153,6 @@ namespace Viewmodel.ViewModel.MainView
         {
             IsLoadingChef1 = true;
             ListCook1 = await service.GetListPicAndStatus(ListUser[0], "ĐANG THỰC HIỆN");
-
             IsLoadingChef1 = false;
 
 

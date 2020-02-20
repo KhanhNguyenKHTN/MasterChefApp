@@ -58,7 +58,7 @@ namespace Service
         {
             try
             {
-                string url = @"/order-detail/pic/"+ cus.UserInfo.UserId +@"/type/" + status;
+                string url = @"/order-detail/pic/"+ cus.EmployeeId +@"/type/" + status;
 
                 var response = await client.GetAsync(url);
 
@@ -85,15 +85,15 @@ namespace Service
         {
             try
             {
-                string url = @"/order-detail/pic/id/" +detail.OrderDetailId;
-                string json = @"{ ""Id"": " + detail.OrderDetailId + @" , ""empId"": " + pic.EmployeeId + @" }";
+                string url = @"/order-detail/pic/id/" +detail.OrderDetailId + "?empId=" + pic.EmployeeId;
+                string json = @"{ ""id"": " + detail.OrderDetailId + @" , ""empId"": " + pic.EmployeeId + @" }";
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await client.PutAsync(url, content);
 
                 if (response.IsSuccessStatusCode)
                 {
-
+                    return true;
                 }
                 else
                 {

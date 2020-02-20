@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
+using Model.Model;
 
 namespace MasterChefApp.Controls
 {
@@ -105,16 +106,16 @@ namespace MasterChefApp.Controls
         {
             Device.BeginInvokeOnMainThread(() => {
                 var removeItem = MainContent.Children.FirstOrDefault(x => x.BindingContext == Item);
-                int index = ItemSources.ToList().IndexOf(removeItem);
+                int index = MainContent.Children.IndexOf(removeItem);
                 MainContent.Children.RemoveAt(index);
             });
         }
 
-        public void UpdateItem(object oldItem, object newItem)
+        public void UpdateItem(object newItem)
         {
             Device.BeginInvokeOnMainThread(() => {
-                var removeItem = MainContent.Children.FirstOrDefault(x => x.BindingContext == oldItem);
-                int index = ItemSources.ToList().IndexOf(removeItem);
+                var removeItem = MainContent.Children.FirstOrDefault(x => (x.BindingContext as OrderDetail).OrderDetailId == (newItem as OrderDetail).OrderDetailId);
+                int index = MainContent.Children.IndexOf(removeItem);
                 MainContent.Children.RemoveAt(index);
                 MainContent.Children.Insert(index, new HorizontalListItem() { BindingContext =  newItem, BorderItemColor = BorderItemColor });
             });

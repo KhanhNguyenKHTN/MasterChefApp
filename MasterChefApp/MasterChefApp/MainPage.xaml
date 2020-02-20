@@ -43,7 +43,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="330"></RowDefinition>
                     <RowDefinition Height="auto" />
-                    <RowDefinition Height="230"></RowDefinition>
+          <RowDefinition Height="330"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Frame Padding="15" CornerRadius="0" BorderColor="#e8de51">
                     <Grid>
@@ -64,9 +64,9 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="35"></RowDefinition>
-                            <RowDefinition Height="230" />
-                            <RowDefinition Height="230" />
-                            <RowDefinition Height="230" />
+              <RowDefinition Height="330" />
+              <RowDefinition Height="330" />
+              <RowDefinition Height="330" />
                         </Grid.RowDefinitions>
                         <Grid BackgroundColor="#03a9fc" Margin="-15, -15, -15, 0">
                             <Label Text="Đang làm" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center"></Label>
