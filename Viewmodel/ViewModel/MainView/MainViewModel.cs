@@ -149,40 +149,23 @@ namespace Viewmodel.ViewModel.MainView
 
         }
 
-        public void LoadAllListCook()
+        public async void LoadAllListCook()
         {
             IsLoadingChef1 = true;
-            BackgroundWorker wk1 = new BackgroundWorker();
-            wk1.DoWork += async (s, e) => {
-                ListCook1 = await service.GetListPicAndStatus(ListUser[0], "ĐANG THỰC HIỆN");
-            };
-            wk1.RunWorkerCompleted += (s, e) =>
-            {
-                IsLoadingChef1 = false;
-            };
-            wk1.RunWorkerAsync();
+            ListCook1 = await service.GetListPicAndStatus(ListUser[0], "ĐANG THỰC HIỆN");
+
+            IsLoadingChef1 = false;
+
 
             IsLoadingChef2 = true;
-            BackgroundWorker wk2 = new BackgroundWorker();
-            wk2.DoWork += async (s, e) => {
-                ListCook2 = await service.GetListPicAndStatus(ListUser[1], "ĐANG THỰC HIỆN");
-            };
-            wk2.RunWorkerCompleted += (s, e) =>
-            {
-                IsLoadingChef2 = false;
-            };
-            wk2.RunWorkerAsync();
+            ListCook2 = await service.GetListPicAndStatus(ListUser[1], "ĐANG THỰC HIỆN");
+            IsLoadingChef2 = false;
+           
 
             IsLoadingChef3 = true;
-            BackgroundWorker wk3 = new BackgroundWorker();
-            wk3.DoWork += async (s, e) => {
-                ListCook3 = await service.GetListPicAndStatus(ListUser[2], "ĐANG THỰC HIỆN");
-            };
-            wk3.RunWorkerCompleted += (s, e) =>
-            {
-                IsLoadingChef3 = false;
-            wk3.RunWorkerAsync();
-            };
+            ListCook3 = await service.GetListPicAndStatus(ListUser[2], "ĐANG THỰC HIỆN");
+            IsLoadingChef3 = false;
+
         }
 
         public async Task<bool> AssignChef(Pic pic)

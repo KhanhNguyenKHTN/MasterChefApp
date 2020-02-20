@@ -43,13 +43,13 @@ namespace Service
                 }
                 else
                 {
-                    return null;
+                    return new ObservableCollection<OrderDetail>();
                 }
             }
             catch (Exception ex)
             {
 
-                return null;
+                return new ObservableCollection<OrderDetail>();
             }
 
         }
@@ -72,12 +72,12 @@ namespace Service
                 }
                 else
                 {
-                    return null;
+                    return new ObservableCollection<OrderDetail>();
                 }
             }
             catch (Exception ex)
             {
-                return null;
+                return new ObservableCollection<OrderDetail>();
             }
         }
 
@@ -85,9 +85,19 @@ namespace Service
         {
             try
             {
-                string url = "";
+                string url = @"/order-detail/pic/id/" +detail.OrderDetailId;
+                string json = @"{ ""Id"": " + detail.OrderDetailId + @" , ""empId"": " + pic.EmployeeId + @" }";
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
+                var response = await client.PutAsync(url, content);
 
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+                else
+                {
+                }
                 return true;
             }
             catch (Exception)

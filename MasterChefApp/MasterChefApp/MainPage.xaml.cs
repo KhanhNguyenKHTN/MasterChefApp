@@ -29,7 +29,6 @@ namespace MasterChefApp
             MessagingCenter.Subscribe<HorizontalListItem, OrderDetail>(this, "AddChef", (s, detail) =>
             {
                 viewModel.SelectedDetail = detail;
-                gridPicWaiting.IsVisible = false;
                 gridSelectedChef.IsVisible = true;
             });
             MessagingCenter.Subscribe<HorizontalListItem, string>(this, "DescriptionTap", async (s, mess) =>
@@ -196,7 +195,7 @@ namespace MasterChefApp
             Device.BeginInvokeOnMainThread(async() => {
                 await frame.FadeTo(0.5, 50);
                 await frame.FadeTo(1, 50);
-                gridPicWaiting.IsVisible = true;
+                //gridPicWaiting.IsVisible = true;
             });
             var pic = frame.BindingContext as Pic;
 
@@ -207,7 +206,7 @@ namespace MasterChefApp
             }
             else
             {
-                gridPicWaiting.IsVisible = false;
+                //gridPicWaiting.IsVisible = false;
             }
             viewModel.SelectedDetail = null;
             gridSelectedChef.IsVisible = false;
