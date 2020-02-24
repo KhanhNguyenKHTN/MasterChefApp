@@ -128,7 +128,7 @@ namespace Model.Model
 
         private string _Status;
         [JsonProperty("status")]
-        public string Status { get => _Status; set { _Status = value; OnPropertyChanged(); } }
+        public string Status { get => _Status; set { _Status = value; OnPropertyChanged(); OnPropertyChanged("IsHasPic"); } }
 
         private string _Note;
         [JsonProperty("note")]

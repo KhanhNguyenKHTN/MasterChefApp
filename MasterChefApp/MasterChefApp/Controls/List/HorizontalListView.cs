@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 using Model.Model;
+using System.Threading.Tasks;
 
 namespace MasterChefApp.Controls
 {
@@ -17,14 +18,14 @@ namespace MasterChefApp.Controls
             typeof(HorizontalListView),
             null, propertyChanged: OnpropertyChanged);
 
-        private static void OnpropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        private static async void OnpropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var collection = newValue as IEnumerable<object>;
             if (collection == null) return;
             var Parent = bindable as HorizontalListView;
             foreach (var item in collection)
             {
-                Parent.AddLast(item);
+               await Parent.AddLast(item);
             }
             Parent.IsLoading = false;
             
@@ -95,11 +96,13 @@ namespace MasterChefApp.Controls
                 MainContent.Children.Insert(0, new HorizontalListItem() { BindingContext = item, BorderItemColor = BorderItemColor });
             });
         }
-        public void AddLast(object item)
+        public async Task<bool> AddLast(object item)
         {
+            await Task.Delay(200);
             Device.BeginInvokeOnMainThread(() => {
                 MainContent.Children.Add(new HorizontalListItem() { BindingContext = item, BorderItemColor = BorderItemColor });
             });
+            return true;
         }
 
         public void Remove(object Item)

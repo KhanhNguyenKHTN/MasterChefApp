@@ -72,67 +72,90 @@ namespace MasterChefApp
         {
 
             var e = ListNotifi.First();
-            var check = viewModel.ListWaiting.FirstOrDefault(x => x.OrderDetailId == e.OrderDetailId);
-            if (check == null)
+            if (e.Status == "ĐANG THỰC HIỆN")
             {
-                string mess = "Đã thêm: " + e.Quantity + " món (" + e.Dish.LabName + ") vào danh sách chờ";
-          
+                var check = viewModel.ListWaiting.FirstOrDefault(x => x.OrderDetailId == e.OrderDetailId);
+                string mess = e.Pic.UserInfo.DisplayName + " bắt đầu làm món " + e.Dish.LabName;
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     isShowingAlert = true;
                     audio.playAudio();
-                    viewModel.InsertOrderDetail(e);
-                    lsList.AddLast(e);
+                    check.Status = "ĐANG THỰC HIỆN";
+                    viewModel.ChangeStatusToDoing(check);
+                    lsList.Remove(check);
+                    switch (check.Pic.EmployeeId)
+                    {
+                        case 10:
+                            lsChef1.AddLast(check);
+                            break;
+                        case 11:
+                            lsChef2.AddLast(check);
+                            break;
+                        case 12:
+                            lsChef3.AddLast(check);
+                            break;
+                        default:
+                            break;
+                    }
+
                     Notify.Text = mess;
                     Notify.TextColor = Color.White;
                 });
                 await Task.Delay(timeWait);
-
-
             }
+            else if (e.Status == "HOÀN TẤT")
+            {
+                OrderDetail check = null;
+                string mess = e.Pic.UserInfo.DisplayName + " đã hoàn thành món " + e.Dish.LabName;
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isShowingAlert = true;
+                    audio.playAudio();
+                    switch (e.Pic.EmployeeId)
+                    {
+                        case 10:
+                            check = viewModel.ListCook1.FirstOrDefault(x => x.OrderDetailId == e.OrderDetailId);
+                            lsChef1.Remove(check);
+                            viewModel.ListCook1.Remove(check);
+                            break;
+                        case 11:
+                            check = viewModel.ListCook2.FirstOrDefault(x => x.OrderDetailId == e.OrderDetailId);
+                            lsChef2.Remove(check);
+                            viewModel.ListCook2.Remove(check);
+                            break;
+                        case 12:
+                            check = viewModel.ListCook3.FirstOrDefault(x => x.OrderDetailId == e.OrderDetailId);
+                            lsChef3.Remove(check);
+                            viewModel.ListCook3.Remove(check);
+                            break;
+                        default:
+                            break;
+                    }
+                    check.Status = "HOÀN TẤT";
+                    viewModel.ChangeStatusToComplete(check);
+                    lsComplete.AddFirst(check);
+                    Notify.Text = mess;
+                    Notify.TextColor = Color.LightGreen;
+                });
+                await Task.Delay(timeWait);
+            }
+           
+
             else
             {
-                if (e.Status == "ĐANG THỰC HIỆN")
+                var check = viewModel.ListWaiting.FirstOrDefault(x => x.OrderDetailId == e.OrderDetailId);
+                if(check == null)
                 {
-                    string mess = "Đầu bếp " + e.Pic.UserInfo.DisplayName + " bắt đầu làm món " + e.Dish.LabName;
+                    string mess = "Đã thêm: " + e.Quantity + " món (" + e.Dish.LabName + ") vào danh sách chờ";
+
                     Device.BeginInvokeOnMainThread(() =>
                     {
                         isShowingAlert = true;
                         audio.playAudio();
-                        viewModel.ChangeStatusToDoing(check);
-                        lsList.Remove(check);
-                        switch (check.Pic.EmployeeId)
-                        {
-                            case 10:
-                                lsChef1.AddLast(check);
-                                break;
-                            case 11:
-                                lsChef2.AddLast(check);
-                                break;
-                            case 12:
-                                lsChef3.AddLast(check);
-                                break;
-                            default:
-                                break;
-                        }
-
+                        viewModel.InsertOrderDetail(e);
+                        lsList.AddLast(e);
                         Notify.Text = mess;
                         Notify.TextColor = Color.White;
-                    });
-                    await Task.Delay(timeWait);
-                }
-                else if(e.Status == "HOÀN TẤT")
-                {
-                    string mess = "Đầu bếp " + e.Pic.UserInfo.DisplayName + " đã hoàn thành món " + e.Dish.LabName;
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
-                        isShowingAlert = true;
-                        audio.playAudio();
-                        viewModel.ChangeStatusToComplete(check);
-                        lsList.Remove(check);
-                        lsComplete.AddFirst(check);
-                        Notify.Text = mess;
-                        Notify.TextColor = Color.LightGreen;
                     });
                     await Task.Delay(timeWait);
                 }

@@ -104,7 +104,6 @@ namespace Viewmodel.ViewModel.MainView
         }
         public void ChangeStatusToComplete(OrderDetail check)
         {
-            ListWaiting.Remove(check);
             ListComplete.Insert(0, check);
         }
         public void ChangeStatusToDoing(OrderDetail check)
