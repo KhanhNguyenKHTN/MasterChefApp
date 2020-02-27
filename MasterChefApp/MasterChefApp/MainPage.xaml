@@ -136,7 +136,7 @@
             </Grid>
         </ScrollView>
 
-        <Grid x:Name="gridSelectedChef" Grid.Row="0" Grid.RowSpan="2" IsVisible="False" BackgroundColor="White" Opacity="0.7">
+        <Grid x:Name="gridSelectedChef" Grid.Row="0" Grid.RowSpan="2" IsVisible="False" BackgroundColor="#99D3D3D3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="2*"/>
@@ -148,7 +148,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <StackLayout Orientation="Vertical" WidthRequest="250" BackgroundColor="White" Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
+            <StackLayout Orientation="Vertical" WidthRequest="250" Margin="5" BackgroundColor="White" Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
                 <Frame HeightRequest="45" CornerRadius="0" BackgroundColor="White" Margin="10,3" BindingContext="{Binding ListUser[0]}"
                               Padding="3" Grid.Row="2" WidthRequest="180" HasShadow="True" HorizontalOptions="FillAndExpand">
                     <Frame.GestureRecognizers>

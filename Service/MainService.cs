@@ -22,14 +22,14 @@ namespace Service
 
         public MainService()
         {
-            client = new HttpClient() { BaseAddress = new Uri(Global.GlobalInfo.BaseUrl) };
+            client = new HttpClient();
         }
 
         public async Task<ObservableCollection<OrderDetail>> GetListOrderByStatus(string status)
         {
             try
             {
-                string url = @"/order-detail/status/" + status;
+                string url = Global.GlobalInfo.BaseUrl + @"/order-detail/status/" + status;
 
                 var response = await client.GetAsync(url);
 
@@ -58,7 +58,7 @@ namespace Service
         {
             try
             {
-                string url = @"/order-detail/pic/"+ cus.EmployeeId +@"/type/" + status;
+                string url = Global.GlobalInfo.BaseUrl + @"/order-detail/pic/" + cus.EmployeeId +@"/type/" + status;
 
                 var response = await client.GetAsync(url);
 
@@ -85,7 +85,7 @@ namespace Service
         {
             try
             {
-                string url = @"/order-detail/pic/id/" +detail.OrderDetailId + "?empId=" + pic.EmployeeId;
+                string url = Global.GlobalInfo.BaseUrl + @"/order-detail/pic/id/" +detail.OrderDetailId + "?empId=" + pic.EmployeeId;
                 string json = @"{ ""id"": " + detail.OrderDetailId + @" , ""empId"": " + pic.EmployeeId + @" }";
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 

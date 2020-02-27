@@ -109,6 +109,7 @@ namespace Viewmodel.ViewModel.MainView
         public void ChangeStatusToDoing(OrderDetail check)
         {
             ListWaiting.Remove(check);
+            if (check.Pic == null) return;
             switch (check.Pic.EmployeeId)
             {
                 case 10:

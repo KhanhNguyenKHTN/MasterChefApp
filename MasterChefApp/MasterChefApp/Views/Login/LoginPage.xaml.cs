@@ -20,7 +20,16 @@ namespace MasterChefApp.Views.Login
 
         private async void BtnLogin_Clicked(object sender, EventArgs e)
         {
+            gridWaiting.IsVisible = true;
             await Navigation.PushModalAsync(new MainPage());
+            gridWaiting.IsVisible = false;
+        }
+
+        private async void BtnForgotPass_Clicked(object sender, EventArgs e)
+        {
+            gridWaiting.IsVisible = true;
+            await Navigation.PushModalAsync(new ForgetPassword());
+            gridWaiting.IsVisible = false;
         }
     }
 }
