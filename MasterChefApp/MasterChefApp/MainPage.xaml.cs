@@ -76,7 +76,7 @@ namespace MasterChefApp
             {
                 var check = viewModel.ListWaiting.FirstOrDefault(x => x.OrderDetailId == e.OrderDetailId);
                 string mess = e.Pic.UserInfo.DisplayName + " bắt đầu làm món " + e.Dish.LabName;
-                Device.BeginInvokeOnMainThread(() =>
+                Device.BeginInvokeOnMainThread(async () =>
                 {
                     isShowingAlert = true;
                     audio.playAudio();
@@ -86,13 +86,13 @@ namespace MasterChefApp
                     switch (check.Pic.EmployeeId)
                     {
                         case 10:
-                            lsChef1.AddLast(check);
+                            await lsChef1.AddLast(check);
                             break;
                         case 11:
-                            lsChef2.AddLast(check);
+                            await lsChef2.AddLast(check);
                             break;
                         case 12:
-                            lsChef3.AddLast(check);
+                            await lsChef3.AddLast(check);
                             break;
                         default:
                             break;
@@ -139,8 +139,6 @@ namespace MasterChefApp
                 });
                 await Task.Delay(timeWait);
             }
-           
-
             else
             {
                 var check = viewModel.ListWaiting.FirstOrDefault(x => x.OrderDetailId == e.OrderDetailId);
@@ -148,12 +146,12 @@ namespace MasterChefApp
                 {
                     string mess = "Đã thêm: " + e.Quantity + " món (" + e.Dish.LabName + ") vào danh sách chờ";
 
-                    Device.BeginInvokeOnMainThread(() =>
+                    Device.BeginInvokeOnMainThread(async () =>
                     {
                         isShowingAlert = true;
                         audio.playAudio();
                         viewModel.InsertOrderDetail(e);
-                        lsList.AddLast(e);
+                        await lsList.AddLast(e);
                         Notify.Text = mess;
                         Notify.TextColor = Color.White;
                     });
@@ -203,6 +201,7 @@ namespace MasterChefApp
                     Notify.Text = original;
                     Notify.TextColor = Color.White;
                 });
+                await Task.Delay(100);
                 Connect();
             };
             wk.RunWorkerAsync();
