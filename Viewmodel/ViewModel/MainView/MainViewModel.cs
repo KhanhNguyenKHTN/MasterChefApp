@@ -172,5 +172,10 @@ namespace Viewmodel.ViewModel.MainView
             if (SelectedDetail == null) return true;
             return await service.AssignChef(pic, SelectedDetail);
         }
+
+        public async void UpdateOrder()
+        {
+            await service.UpdateOrder();
+        }
     }
 }

@@ -41,6 +41,8 @@ namespace MasterChefApp.Services
                 var channel = conn.CreateModel();
 
                 var consumer = new EventingBasicConsumer(channel);
+                var myChanel = channel.QueueDeclare("masterChefqueu").QueueName;
+                channel.QueueBind(myChanel, "directExchange", "CHEF");
 
                 Console.WriteLine("connecting to listen");
                 consumer.Received += (model, ea) =>
@@ -60,7 +62,7 @@ namespace MasterChefApp.Services
                   
 
                 };
-                channel.BasicConsume(queue: "chef_queue",
+                channel.BasicConsume(queue: myChanel,
                                      autoAck: true,
                                      consumer: consumer);
 

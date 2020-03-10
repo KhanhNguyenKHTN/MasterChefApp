@@ -194,6 +194,12 @@ namespace MasterChefApp
             wk.DoWork += async (s, e) =>
             {
                 await viewModel.LoadData();
+                Device.StartTimer(TimeSpan.FromMinutes(75), () =>
+                {
+                    viewModel.UpdateOrder();
+                    return true;
+                });
+
                 string original = "Đang chờ: " + (viewModel.ListWaiting == null? 0 : viewModel.ListWaiting.Count) + " món";
                 Device.BeginInvokeOnMainThread(() =>
                 {

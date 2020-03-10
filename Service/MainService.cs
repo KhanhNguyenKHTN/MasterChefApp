@@ -105,5 +105,22 @@ namespace Service
                 return false;
             }
         }
+
+        public async Task UpdateOrder()
+        {
+            string url = Global.GlobalInfo.BaseUrl + @"/order-detail/update-status";
+            try
+            {
+                var res = await client.GetAsync(url);
+                if (!res.IsSuccessStatusCode)
+                {
+                    res = await client.GetAsync(url);
+                }
+            }
+            catch
+            {
+                
+            }
+        }
     }
 }
