@@ -128,15 +128,23 @@ namespace Model.Model
 
         private string _Status;
         [JsonProperty("status")]
-        public string Status { get => _Status; set { _Status = value; OnPropertyChanged(); OnPropertyChanged("IsHasPic"); } }
+        public string Status { get => _Status; set { _Status = value; OnPropertyChanged(); OnPropertyChanged("IsHasPic"); OnPropertyChanged("IsComplete"); } }
 
         private string _Note;
         [JsonProperty("note")]
         public string Note { get => _Note; set { _Note = value; OnPropertyChanged(); } }
-        
+
+        private string _Position;
+        [JsonProperty("position")]
+        public string Position { get => _Position; set { _Position = value; OnPropertyChanged(); } }
+
+
         public bool IsHasDescription { get { return !string.IsNullOrEmpty(Description); } }
 
         public bool IsHasPic { get { return Status != "ĐANG CHỜ"; } }
+        
+        public bool IsComplete { get { return Status == "HOÀN TẤT"; } }
+
     }
     
     public class Customer: BaseModel

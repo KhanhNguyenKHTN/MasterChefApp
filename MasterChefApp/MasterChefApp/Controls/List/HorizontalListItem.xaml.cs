@@ -42,5 +42,19 @@ namespace MasterChefApp.Controls.List
             if (!context.IsHasDescription) return;
             MessagingCenter.Send<HorizontalListItem, string>(this, "DescriptionTap",context.Description);
         }
+
+        private void RefreshItemClick(object sender, EventArgs e)
+        {
+            var context = this.BindingContext as OrderDetail;
+            context.Status = "LÀM LẠI";
+            MessagingCenter.Send<HorizontalListItem, OrderDetail>(this, "ChangeStatus", context);
+        }
+
+        private void DoneItemClick(object sender, EventArgs e)
+        {
+            var context = this.BindingContext as OrderDetail;
+            context.Status = "XONG";
+            MessagingCenter.Send<HorizontalListItem, OrderDetail>(this, "ChangeStatus", context);
+        }
     }
 }

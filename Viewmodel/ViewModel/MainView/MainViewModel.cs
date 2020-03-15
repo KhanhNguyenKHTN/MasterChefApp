@@ -126,6 +126,11 @@ namespace Viewmodel.ViewModel.MainView
             }
         }
 
+        public async void ChangeStatus(OrderDetail mess)
+        {
+            await service.ChangeStatus(mess);
+        }
+
         public async Task<bool> LoadWaitingPage()
         {
             IsLoadingWaiting = true;

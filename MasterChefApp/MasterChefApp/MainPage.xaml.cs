@@ -35,6 +35,11 @@ namespace MasterChefApp
             {
                 await DisplayAlert("Ghi chú", mess, "Ok");
             });
+
+            MessagingCenter.Subscribe<HorizontalListItem, OrderDetail>(this, "ChangeStatus", (s, mess) =>
+            {
+                ChangeStatus(mess);
+            });
             MessagingCenter.Subscribe<RabbitConnect, OrderDetail>(this, "AddDetailQuere", (s, e) => {
                 
                 ListNotifi.Add(e);
@@ -45,6 +50,17 @@ namespace MasterChefApp
             GenerateData();
             audio = DependencyService.Get<IAudioNoti>();
             //audio.playAudio();
+        }
+
+        private void ChangeStatus(OrderDetail mess)
+        {
+            viewModel.ChangeStatus(mess);
+            var item = viewModel.ListComplete.FirstOrDefault(x=>x.OrderDetailId == mess.OrderDetailId);
+            viewModel.ListComplete.Remove(item);
+            lsComplete.Remove(item);
+            item.Status = "ĐANG CHỜ";
+            viewModel.ListWaiting.Insert(0, item);
+            lsList.AddFirst(item);
         }
 
         private async void Connect()
@@ -131,15 +147,18 @@ namespace MasterChefApp
                         default:
                             break;
                     }
-                    check.Status = "HOÀN TẤT";
-                    viewModel.ChangeStatusToComplete(check);
-                    lsComplete.AddFirst(check);
+                    if (check != null)
+                    {
+                        check.Status = "HOÀN TẤT";
+                        viewModel.ChangeStatusToComplete(check);
+                        lsComplete.AddFirst(check);
+                    }
                     Notify.Text = mess;
                     Notify.TextColor = Color.LightGreen;
                 });
                 await Task.Delay(timeWait);
             }
-            else
+            else if(e.Status == "ĐANG CHỜ")
             {
                 var check = viewModel.ListWaiting.FirstOrDefault(x => x.OrderDetailId == e.OrderDetailId);
                 if(check == null)
@@ -150,7 +169,7 @@ namespace MasterChefApp
                     {
                         isShowingAlert = true;
                         audio.playAudio();
-                        viewModel.InsertOrderDetail(e);
+                        viewModel.ListWaiting.Add(e);
                         await lsList.AddLast(e);
                         Notify.Text = mess;
                         Notify.TextColor = Color.White;
@@ -243,6 +262,11 @@ namespace MasterChefApp
             viewModel.SelectedDetail = null;
             gridSelectedChef.IsVisible = false;
 
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            gridSelectedChef.IsVisible = false;
         }
     }
 }

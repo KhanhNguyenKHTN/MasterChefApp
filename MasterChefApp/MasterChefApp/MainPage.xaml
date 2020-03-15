@@ -195,10 +195,26 @@
                 </Frame>
             </StackLayout>
 
-            <!--<Grid x:Name="gridPicWaiting" Grid.Row="1" Grid.Column="1" BackgroundColor="White" IsVisible="False">
-                <ActivityIndicator Color="#6a27e6" HeightRequest="50" WidthRequest="50" IsRunning="True"
-                                   VerticalOptions="Center" HorizontalOptions="Center"></ActivityIndicator>
-            </Grid>-->
+            <Grid Grid.Row="0" Grid.ColumnSpan="3">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                </Grid.GestureRecognizers>
+            </Grid>
+            <Grid Grid.Row="2" Grid.ColumnSpan="3">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                </Grid.GestureRecognizers>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="0">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                </Grid.GestureRecognizers>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="2">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                </Grid.GestureRecognizers>
+            </Grid>
         </Grid>
     </Grid>
 </ContentPage>

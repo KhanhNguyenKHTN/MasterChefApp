@@ -122,5 +122,36 @@ namespace Service
                 
             }
         }
+
+        public async Task ChangeStatus(OrderDetail mess)
+        {
+            try
+            {
+                string url = Global.GlobalInfo.BaseUrl + @"/order-detail/status/id/" + mess.OrderDetailId + @"?status=" + mess.Status;
+                var json = JsonConvert.SerializeObject(new SendObject() { Id = mess.OrderDetailId, Status = mess.Status });
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+                else
+                {
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+    }
+    class SendObject
+    {
+        [JsonProperty("id")]
+        public long Id { get; set; }
+        [JsonProperty("status")]
+        public string Status { get; set; }
     }
 }
