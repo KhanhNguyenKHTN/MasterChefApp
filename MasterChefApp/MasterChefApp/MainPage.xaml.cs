@@ -58,6 +58,7 @@ namespace MasterChefApp
             var item = viewModel.ListComplete.FirstOrDefault(x=>x.OrderDetailId == mess.OrderDetailId);
             viewModel.ListComplete.Remove(item);
             lsComplete.Remove(item);
+            if (item.Status == "XONG") return;
             item.Status = "ĐANG CHỜ";
             viewModel.ListWaiting.Insert(0, item);
             lsList.AddFirst(item);
