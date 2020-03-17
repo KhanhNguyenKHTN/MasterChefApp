@@ -8,7 +8,7 @@ namespace Global
 {
     public static class GlobalInfo
     {
-        public static string BaseUrl = @"http://192.168.1.99:8081/";
+        public static string BaseUrl = @"http://192.168.1.199:8081/";
 
         public static string CustomerName = @"";
 
